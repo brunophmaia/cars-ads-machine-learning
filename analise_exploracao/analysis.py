@@ -1,4 +1,4 @@
-from scripts.charts import teste, pie_type, pie_cambios, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
+from scripts.charts import pie_type, pie_cambios, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
 
 chart_most_brands()
 chart_most_models()

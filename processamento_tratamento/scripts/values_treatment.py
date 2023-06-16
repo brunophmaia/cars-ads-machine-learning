@@ -153,6 +153,27 @@ def fill_value_missing_values(df):
         fill_val_values(df, f'{val_key}_processed', val_key)
 
 
+def removeDuplicates(df):
+
+    listCodes = []
+    indexesDuplicate = []
+
+    for index, row in df.iterrows():
+        listCodes.append(row['code'])
+    
+    seen = set()
+    uniq = set()
+    index = 0
+    for x in listCodes:
+        if x in uniq:
+            seen.add(x)
+            indexesDuplicate.append(index)
+        else:
+            uniq.add(x)
+        index += 1
+
+    df = df.drop(df.index[indexesDuplicate])
+
 def outliers(df):
 
     values_key = ['price', 'quilometragem']

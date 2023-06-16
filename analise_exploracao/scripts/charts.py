@@ -148,8 +148,12 @@ def top_electric(average_price):
             width = 0.4)
     
     plt.xlabel("Modelo")
-    plt.ylabel('Preço Médio' if average_price else 'Quantidade')
-    plt.title("Preço médio dos top 10 modelos elétricos/híbridos com mais anúncios")
+    plt.ylabel('Preço Médio (R$)' if average_price else 'Quantidade')
+
+    title = "Preço médio dos top 10 modelos elétricos/híbridos com mais anúncios" if average_price else "Top 10 modelos elétricos/híbridos com mais anúncios"
+
+    plt.title(title)
+
     plt.xticks(rotation=30, ha='right')
 
     for i in range(len(_models)):
@@ -198,7 +202,7 @@ def average_city(min_city):
             width = 0.4)
     
     plt.xlabel("Cidade")
-    plt.ylabel("Média de preço")
+    plt.ylabel("Média de preço (R$)")
     plt.title(f'Top 10 cidades com maiores preços médios {"(mais de " + str(min_city) + " anúncios)" if min_city > 1 else ""}')
     plt.xticks(rotation=30, ha='right')
 

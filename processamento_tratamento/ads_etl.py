@@ -4,7 +4,7 @@ from scripts.brands_models_combo_scraping import executeCombosScraping
 from scripts.brands_models_extract import extractBrandsModelAndSaveFile
 from scripts.diffs_rename_brands_models import generateModelsDiffs, getDataFrames, printDiffsBrands, renameBrandsAndSaveFile, renameModelsAndSaveFile
 from mg_cities.cities import getCitiesProcessed, printCitiesNotInOlx, printCitiesNotInSeminovos
-from scripts.values_treatment import getDataFrameJoined, outliers, delete_missing_cities, fill_category_missing_values, fill_value_missing_values, separate_brand_model, write_csv
+from scripts.values_treatment import removeDuplicates, getDataFrameJoined, outliers, delete_missing_cities, fill_category_missing_values, fill_value_missing_values, separate_brand_model, write_csv
 
 # step 1
 joinFiles()
@@ -38,6 +38,7 @@ join_dfs(df_olx, df_seminovos)
 
 # step 6
 df = getDataFrameJoined('step_5_items_extracted')
+removeDuplicates(df)
 outliers(df)
 fill_category_missing_values(df)
 fill_value_missing_values(df)
