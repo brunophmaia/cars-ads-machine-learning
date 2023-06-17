@@ -4,6 +4,55 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+def most_expensive_models():
+    df = get_dataframe()
+
+    cars = []
+
+    for index, row in df.iterrows():
+
+        price = row['price_processed']
+        model = row['model_parsed']
+        brand = row['brand_parsed']
+
+        if price == '':
+            continue
+
+        cars.append({'model': f'{brand} - {model}','price': int(price)})
+
+
+    cars.sort(key=lambda _model: _model['price'], reverse=True)
+
+    top10 = cars[:10]
+
+    plt.figure(figsize = (10, 5))
+
+    values = list(map(lambda x: x['price'], top10))
+
+    models = []
+    index = 0
+    for model in top10:
+        index += 1
+        models.append(f'{index} - {model["model"]}')
+
+    plt.bar(models, values, color ='green',
+            width = 0.4)
+    
+    plt.xlabel("Modelo")
+    plt.ylabel('Preço (R$)')
+
+    title = "Top 10 anúncios com maiores preços"
+
+    plt.title(title)
+
+    plt.xticks(rotation=30, ha='right')
+
+    for i in range(len(values)):
+        plt.text(i,values[i],values[i])
+
+    plt.show()
+
+
 def pie_type():
 
     types = []
@@ -41,9 +90,9 @@ def pie_type():
     
     plt.show() 
 
-def pie_cambios(year_filter):
+def cambios_year(isManual):
 
-    cambios = []
+    years = []
 
     df = get_dataframe()
     for index, row in df.iterrows():
@@ -51,34 +100,55 @@ def pie_cambios(year_filter):
         year = int(row['ano'])
         cambio = row['cambio']
 
-        if cambio == '' or ((year_filter is not None) and (year < year_filter)):
+        if cambio == '' or year < 2000:
             continue
 
-        cambio_found = next(
-            (obj for obj in cambios if obj['name'] == cambio),
+        isManual = cambio == 'Manual'
+
+        year_found = next(
+            (obj for obj in years if obj['year'] == year),
             None
         )
 
-        if cambio_found is None:
-            cambio_found = {'name': cambio, 'count': 0}
-            cambios.append(cambio_found)
+        if year_found is None:
+            year_found = {'year': year, 'countAut': 0, 'countMan': 0}
+            years.append(year_found)
         
-        cambio_found['count'] += 1
+        if isManual:
+            year_found['countMan'] += 1
+        else:
+            year_found['countAut'] += 1
 
-    values = list(map(lambda x: x['count'], cambios))
+    years.sort(key=lambda _model: _model['year'])
 
-    def func(pct, allvalues):
-        absolute = int(pct / 100.*np.sum(allvalues))
-        return "{:.1f}%".format(pct, absolute)
+    x = []
+    y1 = []
+    y2 = []
 
-    plt.pie(values,
-            labels = list(map(lambda x: x['name'], cambios)),
-            autopct = lambda pct: func(pct, values))
+    for year in years:
+        total = year['countMan'] + year['countAut']
+        x.append(year['year'])
+        y1.append((year['countMan']/total)*100)
+        y2.append((year['countAut']/total)*100)
+
+    plt.figure(figsize =(10, 7))
+    plt.plot(x, y1, 
+            color='green',   
+            linewidth=1.0,
+            label="Manual"
+            )
+    plt.plot(x, y2, 
+            color='blue',   
+            linewidth=1.0,
+            label="Automático"
+            )
+
+    plt.legend(loc='upper left')
     
-    plt.title(f'Percentual de distribuição dos tipos de câmbios {"após " + str(year_filter) if year_filter is not None else ""}')
-    
-    plt.show() 
+    plt.title(f'Distribuição de Tipos de Câmbios ao Longo do Anos (%)')
 
+    plt.show()
+    
 
 def box_plot_prices():
 
@@ -90,7 +160,7 @@ def box_plot_prices():
         price = row['price_processed']
         outlier = row['price_outlier']
 
-        if price == '' or outlier == 'TALVEZ' or outlier == 'AMOSTRA PEQUENA':
+        if price == '':
             continue
 
         values.append(int(row['price_processed']))

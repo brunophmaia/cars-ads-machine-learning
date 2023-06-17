@@ -1,4 +1,4 @@
-from scripts.charts import pie_type, pie_cambios, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
+from scripts.charts import most_expensive_models, pie_type, cambios_year, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
 
 chart_most_brands()
 chart_most_models()
@@ -7,10 +7,9 @@ average_city(1)
 average_city(10)
 average_city(50)
 box_plot_prices()
+cambios_year()
 top_electric(False)
 top_electric(True)
-pie_cambios(None)
-pie_cambios(2012)
-pie_cambios(2020)
 pie_type()
-
+box_plot_prices()
+most_expensive_models()
