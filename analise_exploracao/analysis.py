@@ -1,4 +1,4 @@
-from scripts.charts import most_expensive_models, pie_type, cambios_year, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
+from scripts.charts import days_ad, most_expensive_models, pie_type, cambios_year, box_plot_prices, top_electric, average_city, most_city, chart_most_brands, chart_most_models
 
 chart_most_brands()
 chart_most_models()
@@ -13,3 +13,4 @@ top_electric(True)
 pie_type()
 box_plot_prices()
 most_expensive_models()
+days_ad()

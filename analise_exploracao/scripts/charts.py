@@ -4,6 +4,44 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+def days_ad():
+    df = get_dataframe()
+    
+    countlower1 = 0
+    count1_7 = 0
+    count7_30 = 0
+    countgreater30 = 0
+
+    for index, row in df.iterrows():
+
+        days = int(row['posted_days'])
+
+        if(days == 0):
+            countlower1 += 1
+        elif(days > 1 and days <=7):
+            count1_7 += 1
+        elif(days > 7 and days <=30):
+            count7_30 += 1
+        elif(days > 30):
+            countgreater30 += 1
+
+    values = [countlower1, count1_7, count7_30, countgreater30]
+
+
+
+    def func(pct, allvalues):
+        absolute = int(pct / 100.*np.sum(allvalues))
+        return "{:.1f}%".format(pct, absolute)
+
+    plt.pie(values,
+            labels = ['Menos de 1 dia anunciado', '1 a 7 dias anunciado', '7 a 30 dias anunciado', 'Mais de 30 dias anunciado'],
+            autopct = lambda pct: func(pct, values))
+    
+    plt.title("Percentual de Distribuição de Dias Criação do Anúncio")
+    
+    plt.show() 
+
+
 def most_expensive_models():
     df = get_dataframe()
 
