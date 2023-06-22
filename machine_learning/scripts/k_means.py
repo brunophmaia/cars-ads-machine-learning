@@ -1,4 +1,4 @@
-from scripts.common import keep_relevant_columns, remove_missing_values, get_dataframe
+from scripts.common import generate_extras_score, keep_relevant_columns, remove_missing_values, get_dataframe
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
@@ -57,32 +57,6 @@ def generate_elbow_plot(clusters_centers, k_values):
     plt.ylabel("Inércia Cluster")
     plt.title("Elbow K-means")
     plt.show()
-
-def generate_extras_score(df):
-
-    df['extras_score'] = ''
-    binary_good_cols = ['vidros_eletricos', 'air_bag', 'sensor_estacionamento', 'som', 'blindado', 'alarme', 'camera_re', 'ar_condicionado', 'trava_eletrica']
-
-    for index, row in df.iterrows():
-
-        score = 0
-
-        if row['leilao'] == 'Sim':
-            score -= 5
-        if row['portas'] == '4portas':
-            score += 1
-        if row['direcao'] == 'Hidráulica':
-            score += 1
-        elif row['direcao'] == 'Elétrica':
-            score += 2
-        
-        for col in binary_good_cols:
-            if(row[col] == 'Sim'):
-                score += 1
-
-        df.at[index,'extras_score'] = score
-
-    return df
 
 def k_means_count_clusters():
     df = get_dataframe('output\\kmeans\\k_means.csv')
