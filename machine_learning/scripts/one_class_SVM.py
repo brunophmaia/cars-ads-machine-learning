@@ -13,7 +13,7 @@ def one_class_svm():
     df_all_cols = get_dataframe()
     df_all_cols = remove_missing_values(df_all_cols, relevant_cols)
 
-    X = df_all_cols[['price_processed', 'ano','quilometragem_processed']]
+    X = df_all_cols[relevant_cols]
 
     scaler = StandardScaler()
     dados = scaler.fit_transform(X)
